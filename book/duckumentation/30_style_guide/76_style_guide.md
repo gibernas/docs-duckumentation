@@ -4,6 +4,11 @@
 
 This chapter describes the conventions for writing the technical documentation.
 
+## Organization
+
+The documentation is divided into books, parts (labeled 'part:') and units (with no CSS prefix).  To create a new part, put \{#unit:name status=STATUS} after the header, like so:
+> \#\# Safety {part:safety status=ready}
+
 ## General guidelines for technical writing
 
 The following holds for all technical writing.

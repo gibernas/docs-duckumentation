@@ -1,43 +1,32 @@
-# Installation and compilation {#duckumentation-installing-docs-system status=ready}
+# (Experts) Compiling all books {#duckumentation-installing-docs-system status=ready}
 
-In the following, we are going to assume that the documentation system is installed in `~/duckuments`. However, it can be installed anywhere.
+This section describes how to compile all the books at the same time.
 
-We are also going to assume that you have setup a Github account with working public keys.
+## Setup
 
-See: [Basic SSH config](#ssh-local-configuration).
+### Fork the `duckuments` repo
 
-See: [Key pair creation](#howto-create-key-pair).
+In the following, we are going to assume that the documentation system is installed in `~/duckuments`. However, it can be installed anywhere.  You will need to add your public key to github following [these instructions](https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/).
 
-See: [Adding public key on Github](#howto-add-pubkey-to-github).
-
-### Download the `duckuments` repo
-
-Download the `duckietown/duckuments` repository in the `~/duckuments` directory:
+Fork the `duckietown/duckuments` repository in the `~/duckuments` directory:
 
 ```
-$ git clone --depth 11 git@github.com:duckietown/duckuments ~/duckuments
+$ git clone --depth 10 git@github.com:duckietown/duckuments ~/duckuments
 $ cd ~/duckuments
-$ git submodule init
-$ git submodule update --recursive 
+$ git submodule init --recursive
+$ git submodule update --recursive
 ```
-
-Here, note we are using `git lfs clone` -- it's much faster, because it downloads the Git LFS files in parallel.
-
-If it fails, it means that you do not have Git LFS installed. See [](#git-lfs).
 
 The command `--depth 10` tells it we do not care about the whole history.
 
 ### Setup the virtual environment
 
-Use this to install a virtual environment and dependencies:
-
 ```
 $ cd ~/duckuments
-$ make dependencies-ubuntu16
-$ make install-ubuntu16
+$ virtualenv --system-site-packages deploy
+$ git clone git@github.com:AndreaCensi/mcdp.git
 ```
 
-For other distributions, you might need to modify the `install-ubuntu16` Makefile recipe (e.g. use `venv` instead of `virtualenv`).
 
 ## Compiling the documentation   {#compiling-master}
 
@@ -46,7 +35,7 @@ For other distributions, you might need to modify the `install-ubuntu16` Makefil
 To compile everything from scratch, run:
 
 ```
-$ make realclean all
+$ make realclean all -j
 ```
 
 To see the results, open the file
@@ -58,7 +47,7 @@ To see the results, open the file
 If you want to do incremental compilation, you can omit the `clean` and just use:
 
 ```
-$ make all
+$ make all -j
 ```
 
 ### Compiling a single book
@@ -68,10 +57,9 @@ After you have compiled all the books,  you can use one of the following command
 ```
 $ make book-duckumentation
 $ make book-the_duckietown_project
-$ make book-opmanual_duckiebot_base
-$ make book-opmanual_duckiebot_fancy
+$ make book-opmanual_duckiebot
 $ make book-opmanual_duckietown
-$ make book-software_carpentry
+$ make book-software_reference
 $ make book-software_devel
 $ make book-software_architecture
 $ make book-class_fall2017
@@ -90,21 +78,93 @@ The compilation is always incremental, but sometimes you might need to do a rese
 $ make realclean
 ```
 
-## Reporting problems
+## Editing the books
 
-First, see the section [](#markduck-troubleshooting) for common problems and their resolution.
+The books sources are in `docs/docs-![book]`.
 
-Please report problems with the duckuments using [the `duckuments` issue tracker][tracker].
+Each of those are a submodule.
 
-[tracker]: https://github.com/duckietown/duckuments/issues
+To edit, do the following.
 
-Special notes:
+Fork the `docs-![book]` repository that you wish to edit.
 
-* If you have a problem with a generated PDF, please attach the offending PDF.
-* If you say something like "This happens for Figure 3", then it is hard to know which figure you are referencing exactly, because numbering changes from commit to commit.
-  If you want to refer to specific parts of the text, please commit all your work on your branch, and obtain the name of the commit using the following commands:
+For example, for `docs-exercises`, it looks like this:
 
-```
-$ git -C ~/duckuments rev-parse HEAD      # commit for duckuments
-$ git -C ~/duckuments/mcdp rev-parse HEAD # commit for mcdp
-```
+    $ cd ~/duckuments/docs/docs-exercises
+    $ hub fork
+    Updating ![username]
+    From ssh://github.com/duckietown/docs-exercises
+     * [new branch]      master     -> ![username]/master
+    new remote: ![username]
+
+The command has forked the repository.
+
+It also created a new Git remote called `![username]`:
+
+    $ git remote -v
+    ![username] git@github.com:![username]/docs-exercises.git (fetch)
+    ![username] git@github.com:![username]/docs-exercises.git (push)
+    origin  git@github.com:duckietown/docs-exercises.git (fetch)
+    origin  git@github.com:duckietown/docs-exercises.git (push)
+
+Tell Git that you want to push to your fork:
+
+    $ git branch --set-upstream-to ![username]/master
+
+Now, when you push you will push to your fork:
+
+    $ git push
+
+To create a pull request, use:
+
+    $ hub pull-request
+    https://github.com/duckietown/docs-exercises/pull/![id]
+
+Visit the URL to check your pull request.
+
+
+## Editing the book collection
+
+Once you have changed your changes to the books, you need to do a pull-request for the `duckuments` repo.
+
+
+### Forking
+
+As before, make sure you are on your fork:
+
+    $ cd ~/duckuments/
+    $ hub fork
+    Updating ![username]
+    From ssh://github.com/duckietown/duckuments
+     * [new branch]      master     -> ![username]/master
+    new remote: ![username]
+    $ git branch --set-upstream-to ![username]/master
+
+
+### Updating
+
+For this you need to be able to know how to use submodules.
+
+If you go to `~/duckuments`, the status will appear like this:
+
+    $ git status
+    On branch master
+    Your branch is up-to-date with 'origin/master'.
+
+    Changes not staged for commit:
+      (use "git add <file>..." to update what will be committed)
+      (use "git checkout -- <file>..." to discard changes in working directory)
+      (commit or discard the untracked or modified content in submodules)
+
+        modified:   docs/docs-exercises (new commits)
+
+This means that you have changes in the submodules that you need to commit.
+
+Just like with files, you can use `git commit` to do so:
+
+    $ git commit -a -m "Update of repository"
+    $ git push
+
+Now create the pull request using:
+
+    $ hub pull-request

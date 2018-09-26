@@ -1,4 +1,4 @@
-# Making slides {#making-slides type=slides status=ready nonumber=1 label-name="🎦 Making slides"}
+# Making slides {#making-slides type=slides status=ready nonumber=1}
 
 To create slides, use `type=slides` for an H1 header:
 
