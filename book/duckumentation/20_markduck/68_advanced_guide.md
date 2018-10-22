@@ -14,17 +14,17 @@ This is the syntax:
 
 For example, this code:
 
-    <div figure-id="fig:example-embed">
+    <figure id="example-embed">
         <figcaption>Cool Duckietown by night</figcaption>
         <dtvideo src="vimeo:152825632"/>
-    </div>
+    </figure>
 
 produces this result:
 
- <div figure-id="fig:example-embed">
-    <figcaption>Cool Duckietown by night</figcaption>
-    <dtvideo src="vimeo:152825632"/>
- </div>
+ <figure id="example-embed">
+  <figcaption>Cool Duckietown by night</figcaption>
+  <dtvideo src="vimeo:152825632"/>
+ </figure>
 
 </div>
 

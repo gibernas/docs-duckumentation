@@ -453,6 +453,9 @@ to link to only the name, only the number or both ([](#tab:link-examples)).
 }
 </style>
 
+
+<!--
+
 ### Linking to the documentation from outside the documentation
 
 You are encouraged to put links to the documentation from the code or scripts.
@@ -471,6 +474,8 @@ For example, you might have a script whose output is:
     See: http://purl.org/dth/scuderia
 
 When the user clicks on the link, they will be redirected to the topic called "scuderia".
+
+-->
 
 ## Comments
 

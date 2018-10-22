@@ -165,19 +165,23 @@ Note that referring to the equations is done using the syntax `\eqref{eq:![name]
 rather than `[](#eq:![name])`.
 
 
-## LaTeX symbols
+## LaTeX symbols {#latex-symbols}
 
-The LaTeX symbols definitions are in a file called `docs/symbols.tex`. 
+You can place any LaTeX symbols definition in files called `*.symbols.tex`.
 
+These will be included as preamble. 
 
-<!-- [symbols]: github:org=Duckietown,repo=duckuments,path=docs/symbols.tex -->
+For example, this repository contains a file `a.symbols.tex` containing:
 
+    \newcommand{\mysymbol}{\text{This is defined in a.symbols.tex}}
 
-Put all definitions there; if they are centralized it is easier to check
-that they are coherent.
+So then when we create an equation with:
 
-TODO: this mechanism will be changed to include any file called `*.symbols.tex`.
+    $$ \mysymbol $$
 
+It gets rendered as:
+
+$$ \mysymbol $$
 
 ## Bibliography support {#bibliography-support}
 
