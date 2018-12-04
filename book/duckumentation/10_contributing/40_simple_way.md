@@ -7,6 +7,6 @@ They link to the "edit" page in Github. There, one can make and commit the edits
 When committing, please choose "create branch".
 
 
-TODO for volunteer: add screenshot of process
+TODO Gianmarco Bernasconi: add screenshot of process
 
 
