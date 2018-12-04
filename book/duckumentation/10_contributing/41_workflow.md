@@ -46,6 +46,11 @@ Check out the forked repository as you would do normally.
 
 ### Initialize your folder
 
+Go into the folder:
+
+    $ cd docs-![book]
+    
+
 When compiling a book for the first time, you need to run:
 
     $ git submodule init
@@ -54,9 +59,9 @@ And:
 
     $ git submodule update
 
-### Do your edits eeeee
+### Do your edits
 
-Do your edits on your local copy.
+Do your edits on your local copy. The source files are in the director `book/![book]`. The file and folder names start with numbers, these are used to determine the order that things show up in output. 
 
 ### Compile
 
@@ -69,6 +74,11 @@ Re-compile from scratch using:
     $ dts docs clean
     $ dts docs build
 
+If there are errors you should open `duckuments-dist/errors.html` and look at them and fix them. 
+
+### Look at the local copy
+
+Open the file `index.html` and navigate to whichever pages you have changed to make sure that they look the way want them to. 
 
 ### Commit and push
 
